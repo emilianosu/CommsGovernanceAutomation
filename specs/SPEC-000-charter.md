@@ -1,7 +1,7 @@
 # SPEC-000 — Charter
 
 | | |
-|---|---|
+| --- | --- |
 | **Jira** | [MXCE-1025](https://nubank.atlassian.net/browse/MXCE-1025) · epic [MXCE-1260](https://nubank.atlassian.net/browse/MXCE-1260) |
 | **Estado** | Draft for review |
 | **Última actualización** | 2026-09-02 |
@@ -20,7 +20,7 @@ El governance de comunicaciones no recurrentes de Nu MX es hoy **completamente m
 conecte solicitud → aprobación → monitoreo**. Cuatro fallas concretas:
 
 | # | Falla | Consecuencia |
-|---|---|---|
+| --- | --- | --- |
 | P1 | Intake en texto libre, convertido a ticket a mano | Nombres de squad inconsistentes, fechas ambiguas por canal |
 | P2 | Sync de calendario frágil (Sheet → Apps Script → Calendar) | Publicación parcial y propensa a error |
 | P3 | Aprobaciones por Slack y juntas | Cero registro estructurado de quién aprobó qué y cuándo |
@@ -33,7 +33,7 @@ Detalle y evidencia en [`DISCOVERY-MXCE-1025.md`](./DISCOVERY-MXCE-1025.md) §2.
 ## 2. Objetivos
 
 | ID | Objetivo | Métrica de éxito |
-|---|---|---|
+| --- | --- | --- |
 | **O1** | Cerrar el gap de trazabilidad ticket ↔ monitoreo | % de comms aprobadas cuyo `template_name` hace match en `communications_monitoring` · baseline `TBD` (ver [SPEC-001](./SPEC-001-template-name-traceability.md)) |
 | **O2** | Intake estructurado | 0 campos libres en squad, canal y fechas; fecha inicio/fin **por canal** |
 | **O3** | Aprobación auditable | 100% de decisiones con autor + timestamp en Jira; 0 aprobaciones que vivan solo en Slack |
@@ -62,7 +62,7 @@ Acordadas en el kickoff (2026-08-27) y la sesión de seguimiento (2026-08-28). R
 es caro: requiere enmienda a este charter con aprobación de ambos gates.
 
 | ID | Decisión | Fecha |
-|---|---|---|
+| --- | --- | --- |
 | **D1** | **Canal de intake:** un Slack workflow crea el ticket de Jira automáticamente, preservando la identidad de quien solicita | 2026-08-27 |
 | **D2** | **Entrega por etapas:** primero un flujo end-to-end funcional; los guardrails y validaciones se endurecen después, contra datos reales del sistema | 2026-08-27 |
 | **D3** | **Autoridad de aprobación:** Majo es la única persona que aprueba. El sistema sincroniza la decisión a Jira | 2026-08-27 |
@@ -80,7 +80,7 @@ es caro: requiere enmienda a este charter con aprobación de ambos gates.
 **D9** establece que el validation engine gobierna todos los canales del formulario:
 
 | Grupo | Ítems | # |
-|---|---|:--:|
+| --- | --- | :--: |
 | In-App | Announcement · Now Dashboard\* · Highlight (Credit Card)\* · Highlight (Cuenta)\* · Discover More\* · Pop up | 6 |
 | Direct | Push notification · Email · WhatsApp† · SMS† | 4 |
 | App 1ª capa | Experiment proposal\* · Experiment roll out\* | 2 |
@@ -116,7 +116,7 @@ otras como 12. La respuesta la da Majo; hasta entonces se cuentan aparte.
 Del proceso vigente (*Mexico Comms Governance Process Sept 2025*), sin cambios respecto al as-is:
 
 | | Quién | Qué |
-|---|---|---|
+| --- | --- | --- |
 | **R**esponsible | Equipo dueño de la comunicación (requester) | Definir mensaje y canales, ejecutar la comm (Purple Hub, template, población), seguir el proceso de aprobación |
 | **A**ccountable | Requester + Maria Jose Salinas | Decisión final de aprobación y sus excepciones |
 | **C**onsulted | Legal · Compliance | Implicaciones legales cuando aplique |
@@ -126,7 +126,7 @@ Del proceso vigente (*Mexico Comms Governance Process Sept 2025*), sin cambios r
 
 ## 7. Arquitectura to-be
 
-```
+```text
 Requester → Slack Workflow (intake estructurado) → Jira Ticket (auto-creado)
    → Guardrails / Validation Engine
        ├─ pasa todas las reglas, sin overlap  → Auto-aprobado
@@ -147,7 +147,7 @@ join es necesariamente **post-send**.
 ## 8. Enmiendas
 
 | Fecha | Cambio | Quién |
-|---|---|---|
+| --- | --- | --- |
 | 2026-08-31 | Versión inicial. Consolida el *Spec v0* y el *Technical Discovery* de Drive; añade D7–D9 | Emiliano Mendoza |
 | 2026-09-01 | Incorporados los hallazgos del notebook *Non-recurrent Monitoring*: matriz métrica↔canal, riesgos R9 y R10, y corrección de los hechos de ADR-0005 | Emiliano Mendoza |
 | 2026-09-02 | §5 pasa a desglose exacto (12 = 3 + 7 + 2) y abre la sub-pregunta de **D9** sobre los ítems de *Experiment*; se retira `S1-R1` (permiso al notebook, resuelto) | Emiliano Mendoza |

@@ -26,7 +26,7 @@ para stakeholders; el mapeo doc ↔ spec está en [`docs/sources.md`](./docs/sou
 
 ## Estructura
 
-```
+```text
 specs/    SPEC-000 charter · DISCOVERY · PLAN · un SPEC-00N por slice · plantilla
 adr/      Decisiones abiertas con opciones y trade-offs
 diagrams/ Mermaid (.mmd) — as-is y to-be

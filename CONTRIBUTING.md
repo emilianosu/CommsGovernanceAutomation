@@ -22,7 +22,7 @@ artefactos** — y sustituimos la capa de reglas por las convenciones de cada st
 
 ## El loop, por slice
 
-```
+```text
 DISCOVER  ──▶ evidencia + as-is + contrato de datos
               ╠═ Gate técnico: Eduardo
        │
@@ -64,7 +64,7 @@ DELIVER   ──▶ PR + actualización de MXCE-1025 + demo
 
 Toda regla de guardrail se escribe como **predicado testeable con ID estable**:
 
-```
+```text
 R-APR-01 | Si algún canal = "In-App Announcement NPS"
          ⇒ approver group "Core Analytics" es requerido
          Fuente: Mex-Communication New Form Proposal, hoja Workflow
