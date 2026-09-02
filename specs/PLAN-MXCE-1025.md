@@ -21,7 +21,7 @@ Cada slice tiene su propio mini-spec, escrito cuando se construye — no antes.
 |---|---|---|---|---|
 | **1** | **Trazabilidad** — contrato de `template_name` + reconciliación | 📝 [SPEC-001](./SPEC-001-template-name-traceability.md) en revisión | — | Ninguno duro |
 | 2 | **Intake** — Slack Workflow → Jira MEXCOMS | ⏸ No iniciado | — | ⚠️ Ticket a Atlassian Support (portal 1880) |
-| 3 | **Validation engine** — guardrails, ~10 canales | ⏸ No iniciado | Slice 2 | ⚠️ `R-DUR-01` y `R-VOL-01` sin valor (ADR-0003) |
+| 3 | **Validation engine** — guardrails, 12 ítems | ⏸ No iniciado | Slice 2 | ⚠️ `R-DUR-01` y `R-VOL-01` sin valor (ADR-0003) |
 | 4 | **Calendario** — publicación al aprobar | ⏸ No iniciado | Slice 3 | ADR-0005 (tooling) |
 | 5 | **Dashboard** — performance self-service | ⏸ No iniciado | Slice 1 | ADR-0005 (tooling) |
 | — | **Overlap de poblaciones** | 🔬 Spike | — | ADR-0001 |
@@ -72,7 +72,7 @@ Insumos que este repo lleva a esa sesión:
 | Decisión | Quién decide | ADR |
 |---|---|---|
 | Enfoque de overlap (3 opciones) | Eduardo | [0001](../adr/0001-overlap-population-approach.md) |
-| ¿Gobernar 10 canales sin poder medir 7? | Majo + Eduardo | [0002](../adr/0002-channel-scope-vs-instrumentation.md) |
+| ¿Gobernar 12 ítems sin poder medir 7 de los 9 canales? | Majo + Eduardo | [0002](../adr/0002-channel-scope-vs-instrumentation.md) |
 | Valores de duración máxima y límite por cliente | **Majo** | [0003](../adr/0003-guardrail-thresholds-ownership.md) |
 | ¿Reconciliación post-send o llave nueva? | Eduardo | [0004](../adr/0004-ticket-monitoring-join-key.md) |
 | Tooling de calendario y dashboard | Majo + Eduardo | [0005](../adr/0005-calendar-dashboard-tooling.md) |

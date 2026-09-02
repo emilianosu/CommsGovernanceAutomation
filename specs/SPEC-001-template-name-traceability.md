@@ -49,7 +49,7 @@ Cerrar **O1**: que una comunicación aprobada pueda resolverse a sus filas de mo
 - Cambiar el formulario de MEXCOMS *(Slice 2 — depende de Atlassian Support, R3)*.
 - Construir el dashboard *(Slice 5 — consume este join)*.
 - Modificar `CommunicationsMonitoring.scala` o los datasets upstream *(no-objetivo del charter)*.
-- Los 7+ canales sin instrumentación *(ADR-0002 — no tienen filas que reconciliar)*.
+- Los 7 canales sin instrumentación y los 2 ítems de 1ª capa *(ADR-0002 — no tienen filas que reconciliar)*.
 
 ## 4. Contrato de datos
 

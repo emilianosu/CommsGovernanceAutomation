@@ -81,8 +81,10 @@ Debilidades reconocidas en el propio doc:
 
 ### 2.4 Canales y comms bajo governance
 
-**Canales aplicables:** In-App (Announcement, Now Dashboard\*, Highlight Widget\*, Discover More\*) ·
-Direct (Push, Email, WhatsApp†, SMS†) · Modificaciones de 1ª capa de la app (Experiment proposal\*, roll out\*).
+**Canales aplicables — 12 ítems** (enumeración canónica en [`SPEC-000`](./SPEC-000-charter.md) §5):
+In-App (Announcement, Now Dashboard\*, Highlight (Credit Card)\*, Highlight (Cuenta)\*, Discover More\*,
+Pop up) · Direct (Push, Email, WhatsApp†, SMS†) · Modificaciones de 1ª capa de la app
+(Experiment proposal\*, Experiment roll out\*).
 \* requiere aprobación en `#homepage-support` · † requiere presupuesto.
 
 **Comms aplicables:** BAU (cambio de contratos, bugs de producto, interrupción de servicio, retrasos en
@@ -306,7 +308,7 @@ Sin resolver: el campo es **texto abierto**, así que la normalización (case, e
 | R3 | Cambiar el form de MEXCOMS depende de Atlassian Support | **Bloquea el Slice 2**, lead time externo | Slice 1 no lo requiere (D8); abrir el ticket en paralelo, temprano |
 | R4 | Campos 24-26 (reviewers Legal/Content/Ops) son **opcionales** en el form v2 | Los checks obligatorios de Legal/Compliance no son exigibles con el form tal cual | Escalar a Majo: para hacerlos guardrail duro deben ser requeridos |
 | R5 | `Squad` sigue siendo texto abierto en el form v2 | Persiste la inconsistencia de nombres (P1) — rompe agregación por equipo | Proponer campo de selección controlada en el mismo ticket de Atlassian Support de R3 |
-| R6 | 7+ canales gobernados sin instrumentación | Guardrails no verificables para esos canales | [ADR-0002](../adr/0002-channel-scope-vs-instrumentation.md); asimetría documentada en el charter §5 |
+| R6 | 7 canales gobernados sin instrumentación | Guardrails no verificables para esos canales | [ADR-0002](../adr/0002-channel-scope-vs-instrumentation.md); asimetría documentada en el charter §5 |
 | R7 | `JourneyMomentCommunicationsMonitoring` filtra por `template_name LIKE '%jm%'` | Cambiar la convención de naming puede romper un dataset downstream | Verificar antes de proponer contrato de naming (SPEC-001) |
 | R8 | `safeRate` devuelve `0.0` con denominador `0` | Un rate en `0.0` es ambiguo en el dashboard | Mostrar siempre junto a `total_templates_sent` |
 | R9 | El notebook excluye templates enviados con engagement cero: `HAVING max(coalesce(metric_value, 0.0)) > 0` | Una comm que se envió y no tuvo resultado **desaparece de la vista sin aviso** — justo la señal que governance necesita ver | No heredar ese filtro en el dashboard; distinguir "sin envíos" de "enviado con cero" vía `total_templates_sent` |

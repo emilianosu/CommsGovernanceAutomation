@@ -88,7 +88,7 @@ difícilmente como destino.
    ventana sea `0`. Cualquier dashboard que parta de esa query **hereda el sesgo** salvo que se quite
    explícitamente. Para governance hay que invertir el criterio: enviado-con-cero es una fila que debe verse,
    no una que deba ocultarse.
-4. **Canales sin instrumentación.** Por [ADR-0002](./0002-channel-scope-vs-instrumentation.md), 7+ canales no
+4. **Canales sin instrumentación.** Por [ADR-0002](./0002-channel-scope-vs-instrumentation.md), 7 canales no
    tienen datos. Deben verse como *"sin instrumentación"*, **nunca** como *"sin actividad"*.
 
 5. **Acceso de los squads.** Nuestro acceso al notebook ya está resuelto, pero el de los squads consumidores

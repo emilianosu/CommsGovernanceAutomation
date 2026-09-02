@@ -25,7 +25,9 @@ Hay una **asimetría estructural** entre lo que el governance cubre y lo que el 
 email, push, announcement. Verificado en `CommunicationsMonitoring.scala`: sus inputs son exactamente
 `nu-mx/dataset/{email,push,announcement}-communications`.
 
-⇒ **7+ canales quedarían gobernados pero no medibles.**
+⇒ De los 12 ítems: 3 instrumentados, **7 canales gobernados pero no medibles**, y 2 ítems de 1ª capa de
+app (*Experiment proposal* / *roll out*) cuya clasificación como canal sigue abierta — ver *Pregunta abierta*
+al final.
 
 ## Opciones
 
@@ -35,32 +37,32 @@ email, push, announcement. Verificado en `CommunicationsMonitoring.scala`: sus i
 - ➕ Alcance del Slice 3 mucho menor.
 - ➖ El engine cubre una fracción del proceso real de Majo; el resto sigue manual.
 
-### B — Gobernar los ~10 canales del forms
+### B — Gobernar los 12 ítems del forms
 
 - ➕ Cobertura completa del proceso de governance; el engine sirve para todo lo que Majo revisa hoy.
 - ➕ Las reglas de fechas, duración y approvers **no requieren instrumentación** para aplicarse — se validan
   contra lo que declara el ticket.
-- ➖ 7+ canales sin forma de verificar cumplimiento después del envío.
+- ➖ 7 canales sin forma de verificar cumplimiento después del envío.
 - ➖ Alcance del Slice 3 considerablemente mayor.
 
-### C — Gobernar 10, medir 3, documentando la asimetría
+### C — Gobernar los 12, medir 3, documentando la asimetría
 
 Variante de B que hace la brecha explícita en cada artefacto en lugar de dejarla implícita.
 
 ## Decisión
 
-**Opción B, ejecutada como C:** el validation engine gobierna los ~10 canales del formulario, y la asimetría
+**Opción B, ejecutada como C:** el validation engine gobierna los 12 ítems del formulario, y la asimetría
 se documenta explícitamente en lugar de esconderse.
 
 *(Decisión **D9** del charter, 2026-08-31. Pendiente de ratificar con Majo y Eduardo el 2026-09-03.)*
 
 ## Consecuencias
 
-1. **Los guardrails aplican a los ~10 canales.** Reglas de fechas, duración, approvers y cadencia se validan
+1. **Los guardrails aplican a los 12 ítems.** Reglas de fechas, duración, approvers y cadencia se validan
    contra lo declarado en el ticket — no necesitan datos de envío.
 2. **El join a monitoreo y el dashboard (O1, O6) cubren solo 3 canales.** Los criterios de aceptación de O1
    se acotan a email, push y announcement.
-3. **Los 7+ canales restantes se marcan `governed, unmeasured`** en el charter y en el dashboard. Un canal
+3. **Los 7 canales restantes se marcan `governed, unmeasured`** en el charter y en el dashboard. Un canal
    sin datos debe verse como "sin instrumentación", **nunca** como "sin actividad" — confundir ambas cosas
    llevaría a conclusiones falsas sobre el uso de canales.
 4. **Se acepta no poder verificar cumplimiento** en esos canales: si un equipo excede la duración aprobada en

@@ -71,7 +71,7 @@ es caro: requiere enmienda a este charter con aprobación de ambos gates.
 | **D6** | **Overlap como problema separado:** no bloquea el flujo principal | 2026-08-28 |
 | **D7** | **Fuente de verdad de specs:** este repo Git; Drive queda como espejo para stakeholders | 2026-08-31 |
 | **D8** | **Primer slice:** trazabilidad vía `template_name`, no intake — no depende de terceros y desbloquea el dashboard | 2026-08-31 |
-| **D9** | **Alcance de canales del validation engine:** los ~10 canales del form v2, no solo los 3 instrumentados (ver §5) | 2026-08-31 |
+| **D9** | **Alcance de canales del validation engine:** los 12 ítems del form v2, no solo los 3 instrumentados (ver §5) | 2026-08-31 |
 
 ---
 
@@ -79,20 +79,35 @@ es caro: requiere enmienda a este charter con aprobación de ambos gates.
 
 **D9** establece que el validation engine gobierna todos los canales del formulario:
 
-| Grupo | Canales |
-|---|---|
-| In-App | Announcement · Now Dashboard\* · Highlight (Credit Card)\* · Highlight (Cuenta)\* · Discover More\* · Pop up |
-| Direct | Push notification · Email · WhatsApp† · SMS† |
-| App 1ª capa | Experiment proposal\* · Experiment roll out\* |
+| Grupo | Ítems | # |
+|---|---|:--:|
+| In-App | Announcement · Now Dashboard\* · Highlight (Credit Card)\* · Highlight (Cuenta)\* · Discover More\* · Pop up | 6 |
+| Direct | Push notification · Email · WhatsApp† · SMS† | 4 |
+| App 1ª capa | Experiment proposal\* · Experiment roll out\* | 2 |
+| **Total** | — | **12** |
 
 \* requiere aprobación adicional en `#homepage-support` · † requiere presupuesto aprobado
 
-**Pero `communications_monitoring` solo instrumenta 3 canales** (email, push, announcement).
+**Pero `communications_monitoring` solo instrumenta 3** (Announcement, Push, Email). El desglose exacto:
 
-> ⚠️ **Consecuencia aceptada explícitamente:** 7+ canales quedan **gobernados pero no medibles**. Los
-> guardrails aplican a todos; el join a monitoreo y el dashboard (O1, O6) solo cubren los 3 instrumentados.
-> Registrado en [ADR-0002](../adr/0002-channel-scope-vs-instrumentation.md). Los criterios de aceptación de
-> O1 se acotan a esos 3 canales; el resto se marca *governed, unmeasured*.
+```text
+12 ítems bajo governance
+  ├─ 3 instrumentados ............ Announcement · Push · Email
+  ├─ 7 canales sin instrumentar .. Now Dashboard · Highlight (CC) · Highlight (Cuenta) ·
+  │                                Discover More · Pop up · WhatsApp · SMS
+  └─ 2 ítems de 1ª capa de app ... Experiment proposal · Experiment roll out
+                                   ⬜ su clasificación como "canal" está abierta — ver D9
+```
+
+> ⚠️ **Consecuencia aceptada explícitamente:** **7 canales** quedan **gobernados pero no medibles**. Los
+> guardrails aplican a los 12 ítems; el join a monitoreo y el dashboard (O1, O6) solo cubren los 3
+> instrumentados. Registrado en [ADR-0002](../adr/0002-channel-scope-vs-instrumentation.md). Los criterios
+> de aceptación de O1 se acotan a esos 3; el resto se marca *governed, unmeasured*.
+
+⬜ **Pregunta abierta de `D9`, para la sesión del 2026-09-03:** *Experiment proposal* y *Experiment roll out*
+son modificaciones de la 1ª capa de la app, no envíos de comunicación. Pasan por el mismo flujo de
+aprobación, pero contarlos como "canales" es lo que hacía que este alcance se citara unas veces como 10 y
+otras como 12. La respuesta la da Majo; hasta entonces se cuentan aparte.
 
 ---
 
