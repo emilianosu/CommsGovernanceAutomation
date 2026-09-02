@@ -4,7 +4,7 @@
 |---|---|
 | **Jira** | [MXCE-1025](https://nubank.atlassian.net/browse/MXCE-1025) |
 | **Estado** | Draft — para revisar en la working session del 2026-09-03 |
-| **Última actualización** | 2026-08-31 |
+| **Última actualización** | 2026-09-02 |
 | **Gate técnico** | Eduardo Jurado — ⬜ pendiente |
 | **Gate de negocio** | Maria Jose Salinas — ⬜ pendiente (toca el contrato de naming, que afecta a los squads) |
 

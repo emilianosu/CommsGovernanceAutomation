@@ -4,7 +4,7 @@
 |---|---|
 | **Jira** | [MXCE-1025](https://nubank.atlassian.net/browse/MXCE-1025) · epic [MXCE-1260](https://nubank.atlassian.net/browse/MXCE-1260) |
 | **Estado** | Draft for review |
-| **Última actualización** | 2026-08-31 |
+| **Última actualización** | 2026-09-02 |
 | **Dueño** | Emiliano Mendoza (AE) |
 | **Aprobación de negocio** | Maria Jose Salinas |
 | **Aprobación técnica** | Eduardo Jurado |
@@ -149,3 +149,5 @@ join es necesariamente **post-send**.
 | Fecha | Cambio | Quién |
 |---|---|---|
 | 2026-08-31 | Versión inicial. Consolida el *Spec v0* y el *Technical Discovery* de Drive; añade D7–D9 | Emiliano Mendoza |
+| 2026-09-01 | Incorporados los hallazgos del notebook *Non-recurrent Monitoring*: matriz métrica↔canal, riesgos R9 y R10, y corrección de los hechos de ADR-0005 | Emiliano Mendoza |
+| 2026-09-02 | §5 pasa a desglose exacto (12 = 3 + 7 + 2) y abre la sub-pregunta de **D9** sobre los ítems de *Experiment*; se retira `S1-R1` (permiso al notebook, resuelto) | Emiliano Mendoza |

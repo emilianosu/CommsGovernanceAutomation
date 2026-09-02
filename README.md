@@ -31,7 +31,7 @@ specs/    SPEC-000 charter · DISCOVERY · PLAN · un SPEC-00N por slice · plan
 adr/      Decisiones abiertas con opciones y trade-offs
 diagrams/ Mermaid (.mmd) — as-is y to-be
 sql/      Queries de reconciliación y baseline
-docs/     Inventario de fuentes y blockers
+docs/     Inventario de fuentes y blockers · material de sesiones
 ```
 
 ## Por dónde empezar
@@ -40,6 +40,9 @@ docs/     Inventario de fuentes y blockers
 2. [`specs/DISCOVERY-MXCE-1025.md`](./specs/DISCOVERY-MXCE-1025.md) — as-is, to-be, contrato de datos, blockers.
 3. [`specs/PLAN-MXCE-1025.md`](./specs/PLAN-MXCE-1025.md) — secuencia de slices y milestones.
 4. [`specs/SPEC-001-template-name-traceability.md`](./specs/SPEC-001-template-name-traceability.md) — el slice en curso.
+5. [`adr/`](./adr/) — las 5 decisiones abiertas, con sus opciones y trade-offs. Es el insumo principal de la
+   working session; [`docs/working-session-2026-09-03.md`](./docs/working-session-2026-09-03.md) las resume
+   en formato decidible.
 
 ## Estado
 
@@ -49,5 +52,5 @@ docs/     Inventario de fuentes y blockers
 | 2 — Intake (Slack Workflow → Jira MEXCOMS) | ⏸ No iniciado |
 | 3 — Validation engine / guardrails | ⏸ No iniciado |
 | 4 — Publicación en calendario | ⏸ No iniciado |
-| 5 — Dashboard de performance | ⏸ No iniciado |
+| 5 — Dashboard de performance | 🔍 Prior art identificado — [ADR-0005](./adr/0005-calendar-dashboard-tooling.md) |
 | — Overlap de poblaciones (spike) | 🔬 [ADR-0001](./adr/0001-overlap-population-approach.md) en `Proposed` |

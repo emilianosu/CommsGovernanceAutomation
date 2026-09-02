@@ -7,7 +7,7 @@
 | **Proyecto** | MXCE — *[Core MX] Core Experience* |
 | **Reporter** | Maria Salinas · **Assignee** Carlos (Emiliano) Mendoza |
 | **Estado** | Draft for review · Gate técnico pendiente (Eduardo) |
-| **Última actualización** | 2026-08-31 |
+| **Última actualización** | 2026-09-02 |
 
 Fase read-only: consolida la evidencia que alimenta los specs. No propone implementación.
 Inventario completo de fuentes con URLs: [`docs/sources.md`](../docs/sources.md).
@@ -22,6 +22,10 @@ join con monitoreo de performance.
 
 La entrega se parte en 4 bloques, MVP-first, endureciendo validaciones progresivamente:
 **(1)** Slack workflow · **(2)** validation engine · **(3)** calendario · **(4)** link a Databricks/monitoring.
+
+> Estos son los 4 bloques del *Technical Discovery* original. La secuencia de ejecución acordada después son
+> **5 slices** —con trazabilidad primero, no intake (decisión **D8**)— en [`PLAN`](./PLAN-MXCE-1025.md) §1.
+> Los bloques describen el alcance; los slices, el orden.
 
 ---
 

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Estado** | Draft — milestones por bloque a definir en la working session del 2026-09-03 16:00 |
-| **Última actualización** | 2026-08-31 |
+| **Última actualización** | 2026-09-02 |
 
 ---
 
@@ -62,7 +62,7 @@ Trabajo que puede avanzar sin esperar al slice anterior:
 Insumos que este repo lleva a esa sesión:
 
 1. Charter con objetivos, no-objetivos y las 9 decisiones cerradas → [SPEC-000](./SPEC-000-charter.md).
-2. Discovery con el as-is, el contrato de datos verificado y los 8 riesgos →
+2. Discovery con el as-is, el contrato de datos verificado y los 10 riesgos →
    [DISCOVERY](./DISCOVERY-MXCE-1025.md).
 3. El slice 1 especificado → [SPEC-001](./SPEC-001-template-name-traceability.md).
 4. Cinco decisiones abiertas con opciones y trade-offs, listas para cerrarse → [`adr/`](../adr/).

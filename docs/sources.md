@@ -3,7 +3,7 @@
 Todas las fuentes que alimentan los specs, con fecha de lectura. Regla 6 de
 [`CONTRIBUTING.md`](../CONTRIBUTING.md): toda afirmación técnica en un spec apunta a una de estas.
 
-Última actualización: **2026-08-31**
+Última actualización: **2026-09-02**
 
 ---
 
