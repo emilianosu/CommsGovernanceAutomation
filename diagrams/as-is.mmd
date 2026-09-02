@@ -1,0 +1,51 @@
+---
+title: As-is — Proceso manual de governance de comms (MX)
+---
+flowchart TD
+    R["Requester<br/><i>Growth · App XP · Core Analytics…</i>"]
+    FT["Solicitud en texto libre<br/><i>sin estructura</i>"]
+    JT["Ticket manual en MEXCOMS<br/><i>Jira Service Management</i>"]
+    MAJO{"Majo revisa<br/><i>Slack y juntas</i>"}
+    SHEET["Sheet: MEX COMMUNICATIONS<br/>CALENDAR 2025"]
+    AS["Apps Script"]
+    GCAL["Google Calendar"]
+
+    EMAIL["Email"]
+    PUSH["Push"]
+    ANN["Announcement"]
+    OTHER["7+ canales más<br/><i>Now Dashboard, Highlights,<br/>Discover More, WhatsApp, SMS…</i>"]
+
+    ITAIPU["Pipeline de Itaipu<br/><code>CommunicationsMonitoring</code>"]
+    TABLE[("etl.mx__dataset.communications_monitoring<br/><i>append-only · solo envíos reales</i>")]
+    NB["Notebook <i>Non-recurrent Monitoring</i><br/>filtra por template, canal y fecha<br/><b>pero no sabe de quién es la comm</b>"]
+
+    R --> FT --> JT --> MAJO
+    MAJO -->|"aprobación por conversación"| SHEET
+    SHEET -->|"copiado a mano"| AS
+    AS -.->|"sync parcial, propenso a error"| GCAL
+
+    MAJO --> EMAIL & PUSH & ANN & OTHER
+    EMAIL & PUSH & ANN --> ITAIPU --> TABLE --> NB
+    OTHER -.->|"sin instrumentación"| X(["sin datos"])
+
+    JT -. "❌ sin llave de join<br/>solo template_name,<br/>laxamente estandarizado" .-> TABLE
+
+    P1["<b>P1</b> intake sin estructura<br/>squads inconsistentes<br/>fechas ambiguas por canal"]
+    P2["<b>P2</b> sync frágil"]
+    P3["<b>P3</b> aprobaciones sin registro<br/>estructurado"]
+    P4["<b>P4</b> sin trazabilidad<br/>ticket ↔ performance"]
+
+    P1 -.-> FT
+    P2 -.-> AS
+    P3 -.-> MAJO
+    P4 -.-> TABLE
+
+    classDef problem fill:#ffe6e6,stroke:#cc0000,stroke-width:2px,color:#000
+    classDef manual fill:#fff4e6,stroke:#e69500,color:#000
+    classDef data fill:#e6f2ff,stroke:#0066cc,color:#000
+    classDef none fill:#f0f0f0,stroke:#999,color:#666
+
+    class P1,P2,P3,P4 problem
+    class FT,JT,SHEET,AS,MAJO manual
+    class ITAIPU,TABLE,NB data
+    class X,OTHER none

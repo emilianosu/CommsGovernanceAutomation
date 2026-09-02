@@ -1,0 +1,54 @@
+---
+title: To-be — Governance de comms automatizado (MX)
+---
+flowchart TD
+    R["Requester"]
+    SW["<b>Slack Workflow</b> · <i>slice 2</i><br/><i>intake estructurado</i><br/>canal · fechas y template por canal<br/>identidad preservada"]
+    JT["<b>Jira Ticket</b><br/><i>auto-creado en MEXCOMS</i>"]
+
+    VE{"<b>Validation Engine</b> · <i>slice 3</i><br/>guardrails"}
+    AUTO["✅ Auto-aprobado"]
+    MANUAL["👤 <b>Revisión manual de Majo</b><br/><i>aprueba / rechaza</i>"]
+
+    STATUS["Reflejar estado en Jira<br/><i>autor + timestamp</i>"]
+    CAL["📅 Calendario público · <i>slice 4</i>"]
+
+    EMAIL["Email"]
+    PUSH["Push"]
+    ANN["Announcement"]
+    OTHER["7+ canales gobernados<br/><i>sin instrumentación</i>"]
+
+    ITAIPU["Pipeline de Itaipu"]
+    TABLE[("communications_monitoring<br/><i>append-only · post-send</i>")]
+    DASH["📊 Dashboard de performance · <i>slice 5</i><br/><i>self-service por canal,<br/>fecha y template</i>"]
+
+    R --> SW --> JT --> VE
+    VE -->|"pasa todas las reglas,<br/>sin overlap"| AUTO
+    VE -->|"overlap o<br/>violación de regla"| MANUAL
+    AUTO & MANUAL --> STATUS
+    STATUS -->|"si Aprobado"| CAL
+    CAL --> EMAIL & PUSH & ANN & OTHER
+    EMAIL & PUSH & ANN --> ITAIPU --> TABLE --> DASH
+    OTHER -.->|"governed, unmeasured<br/>ADR-0002"| Z(["sin datos"])
+
+    JT == "🔑 <b>slice 1</b> · join post-send<br/>(template_name,<br/>communication_type,<br/>formatted_date)" ==> TABLE
+
+    subgraph RULES ["Reglas del engine"]
+        direction LR
+        OK["<b>Con valor definido</b><br/>R-APR-01/02/03 routing<br/>R-CAD-01 cadencia<br/>R-REV-01 reviewers"]
+        PEND["<b>Pendientes de Majo</b><br/>R-DUR-01 duración<br/>R-VOL-01 volumen<br/>R-OVL-01 overlap"]
+    end
+    RULES -.-> VE
+
+    classDef auto fill:#e6ffe6,stroke:#00aa00,color:#000
+    classDef human fill:#fff4e6,stroke:#e69500,color:#000
+    classDef data fill:#e6f2ff,stroke:#0066cc,color:#000
+    classDef none fill:#f0f0f0,stroke:#999,color:#666
+    classDef pending fill:#ffe6e6,stroke:#cc0000,color:#000
+
+    class AUTO,SW,JT,VE,STATUS auto
+    class MANUAL human
+    class ITAIPU,TABLE,DASH,CAL data
+    class Z,OTHER none
+    class PEND pending
+    class OK auto
