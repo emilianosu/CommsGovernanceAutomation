@@ -137,6 +137,8 @@ Convenciones: `execute_sql_read_only`, naming de 3 niveles, `LIMIT 100` al explo
 |---|---|---|---|
 | S1-R2 | Cómo se expone Jira hacia Databricks está sin definir | **Alto** — condiciona si la reconciliación es automatizable | Pregunta para Eduardo en el gate; mientras tanto, muestreo manual |
 | S1-R3 | El naming histórico puede ser tan inconsistente que la normalización no rescate lo suficiente | Medio — bajaría la meta de O1 alcanzable | Es justo lo que mide el paso 1; si es el caso, refuerza ADR-0004 |
+| S1-R4 | `template_name` es texto abierto en el form v2 | El contrato es convención, no restricción del sistema | Proponer validación en el mismo ticket de Atlassian Support de R3/R4/R5 |
+| S1-R5 | Cambiar la convención puede romper `JourneyMomentCommunicationsMonitoring` | Alto — dataset downstream de otro squad | `R-TPL-05` como restricción dura; verificar antes del gate |
 | S1-R6 | Los valores reales de `communication_type` siguen sin verificar (§4.1); el MCP `databricks-sql` requiere autenticación | Medio — bloquea cerrar el mapeo de canales y el riesgo R10 del DISCOVERY | Es el paso 1 del §7; resolver el acceso antes del gate |
 
 > *`S1-R1` (falta de permiso al notebook) se retiró el 2026-09-01: el acceso quedó resuelto. Su ID no se
@@ -155,8 +157,6 @@ acquisition/duplicate-email/emails/default/v1     ← ruta con slashes y versió
 Difieren en separador, en profundidad y en si llevan versión. Un contrato de naming tiene que decidir qué
 hacer con el histórico que no lo cumple: normalizar, mapear, o declararlo irrecuperable — y esa respuesta es
 justamente el insumo de [ADR-0004](../adr/0004-ticket-monitoring-join-key.md).
-| S1-R4 | `template_name` es texto abierto en el form v2 | El contrato es convención, no restricción del sistema | Proponer validación en el mismo ticket de Atlassian Support de R3/R4/R5 |
-| S1-R5 | Cambiar la convención puede romper `JourneyMomentCommunicationsMonitoring` | Alto — dataset downstream de otro squad | `R-TPL-05` como restricción dura; verificar antes del gate |
 
 ## 9. Decisiones abiertas
 
