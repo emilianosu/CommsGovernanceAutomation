@@ -11,7 +11,7 @@ Todas las fuentes que alimentan los specs, con fecha de lectura. Regla 6 de
 
 | Recurso | URL | Nota |
 | --- | --- | --- |
-| MXCE-1025 | <https://nubank.atlassian.net/browse/MXCE-1025> | Story *[AE] Comms governance automation Discovery*. ⚠️ Sin descripción (`null`), priority `Low`, status `Backlog`, 0 comentarios, 0 subtasks. Reporter: Maria Salinas · Assignee: Carlos Mendoza · Creado 2026-07-06 |
+| MXCE-1025 | <https://nubank.atlassian.net/browse/MXCE-1025> | Story *[AE] Comms governance automation Discovery*. Descripción y criterios de aceptación escritos el 2026-09-02 — el card cubre **solo la fase de discovery**. Priority `Medium`, status `In Progress`, sprint *Welcome Isabelly!*. Reporter: Maria Salinas · Assignee: Carlos Mendoza · Creado 2026-07-06 |
 | MXCE-1260 | <https://nubank.atlassian.net/browse/MXCE-1260> | Epic padre *Comms Governance Optimization* (Backlog) |
 | Board MXCE | <https://nubank.atlassian.net/jira/software/c/projects/MXCE/boards/30448> | Proyecto *[Core MX] Core Experience* |
 | MEXCOMS | <https://nubank.atlassian.net/jira/servicedesk/projects/MEXCOMS/queues/custom/9010> | Service desk del intake actual. Estados: `To Do` → `In Review` → `Done` |
@@ -103,7 +103,7 @@ un script. Están en lenguaje de proceso, sin jerga técnica, y su audiencia es 
 | Blocker | Detalle | Dueño |
 | --- | --- | --- |
 | ⬜ Atlassian Support | Ticket de *Update Existing Workflow* sin abrir (R3 + R4 + R5 deberían ir juntos) | Majo / Emiliano |
-| ⬜ MXCE-1025 | Sin descripción ni criterios de aceptación | Emiliano |
+| ✅ MXCE-1025 | Descripción y criterios de aceptación escritos el 2026-09-02; priority `Medium`, status `In Progress` | Emiliano |
 | ⬜ Valores de negocio | `R-DUR-01`, `R-VOL-01`, `R-OVL-01` sin definir | Majo |
 | ⬜ Jira → Databricks | Cómo se expone la data de Jira hacia Databricks, sin definir | Eduardo |
 | ⬜ `communication_type` | Valores reales sin verificar — el MCP `databricks-sql` requiere autenticación | Emiliano |

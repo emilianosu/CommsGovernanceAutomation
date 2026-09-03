@@ -87,6 +87,11 @@ Insumos que este repo lleva a esa sesión:
 
 ## 6. Pendientes de housekeeping
 
-- [ ] Escribir la descripción de MXCE-1025 (hoy `null`) y sus criterios de aceptación.
-- [ ] Crear subtasks por slice en el board MXCE.
-- [ ] Revisar la prioridad del card: hoy `Low`, con el epic padre en `Backlog`.
+- [x] Descripción y criterios de aceptación de MXCE-1025 — escritos el 2026-09-02. El card es **solo la
+      fase de discovery**, no la historia paraguas del proyecto.
+- [x] Prioridad del card: `Low` → `Medium`, alineada con el epic padre. Status `Backlog` → `In Progress`,
+      que era lo que ya reflejaba estar en el sprint activo.
+- [ ] Abrir cada slice como **story propia bajo el epic [MXCE-1260]** cuando arranque — no como subtask de
+      MXCE-1025, que se cierra al terminar el discovery.
+
+[MXCE-1260]: https://nubank.atlassian.net/browse/MXCE-1260
