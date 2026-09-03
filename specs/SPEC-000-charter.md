@@ -69,7 +69,7 @@ es caro: requiere enmienda a este charter con aprobación de ambos gates.
 | **D4** | **Aprobación con branching:** el engine auto-aprueba lo que pasa todas las reglas; solo enruta a revisión manual lo que tiene overlap o violación. Majo mantiene la propiedad de las reglas y responde por las excepciones | 2026-08-28 |
 | **D5** | **Prioridad de monitoreo:** email, push y announcement primero (los 3 instrumentados); un cuarto canal se evalúa después | 2026-08-27 |
 | **D6** | **Overlap como problema separado:** no bloquea el flujo principal | 2026-08-28 |
-| **D7** | **Fuente de verdad de specs:** este repo Git; Drive queda como espejo para stakeholders | 2026-08-31 |
+| **D7** | **Fuente de verdad de specs:** este repo Git. Drive no es una copia: aloja material de negocio escrito a mano para stakeholders, en lenguaje de proceso | 2026-08-31 |
 | **D8** | **Primer slice:** trazabilidad vía `template_name`, no intake — no depende de terceros y desbloquea el dashboard | 2026-08-31 |
 | **D9** | **Alcance de canales del validation engine:** los 12 ítems del form v2, no solo los 3 instrumentados (ver §5) | 2026-08-31 |
 
@@ -151,3 +151,4 @@ join es necesariamente **post-send**.
 | 2026-08-31 | Versión inicial. Consolida el *Spec v0* y el *Technical Discovery* de Drive; añade D7–D9 | Emiliano Mendoza |
 | 2026-09-01 | Incorporados los hallazgos del notebook *Non-recurrent Monitoring*: matriz métrica↔canal, riesgos R9 y R10, y corrección de los hechos de ADR-0005 | Emiliano Mendoza |
 | 2026-09-02 | §5 pasa a desglose exacto (12 = 3 + 7 + 2) y abre la sub-pregunta de **D9** sobre los ítems de *Experiment*; se retira `S1-R1` (permiso al notebook, resuelto) | Emiliano Mendoza |
+| 2026-09-02 | **D7** reformulada: Drive deja de ser un espejo generado de los specs y pasa a alojar material de negocio escrito a mano para stakeholders. Los 3 docs y su propósito, en [`docs/sources.md`](../docs/sources.md) §3 | Emiliano Mendoza |

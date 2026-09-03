@@ -27,20 +27,30 @@ Todas las fuentes que alimentan los specs, con fecha de lectura. Regla 6 de
 
 **Carpeta del proyecto:** <https://drive.google.com/drive/folders/1CnWSNFK4i-Dkkk-rGu-wrKdyyGU8g2yw>
 
-### Mapeo doc ↔ spec (para que no haya dos verdades)
+### Material de negocio en Drive
 
-| Documento en Drive | Rol ahora | Spec que lo sustituye |
-| --- | --- | --- |
-| [Comms Governance Automation — Spec v0](https://docs.google.com/document/d/1c2jdeErvv6clHTY64vQkLnaxmIBzUkl7p855xKqNTMQ/edit) | 👁 Vista para stakeholders | [`SPEC-000-charter.md`](../specs/SPEC-000-charter.md) |
-| [Technical Discovery (MXCE-1025)](https://docs.google.com/document/d/1QFZuKcXEFsRRXUsKSjLVB0XzIhcE9xhotwoHD5Wzbo0/edit) | 👁 Vista para stakeholders | [`DISCOVERY-MXCE-1025.md`](../specs/DISCOVERY-MXCE-1025.md) |
-| `discovery-doc.md` (Google Doc, mismo contenido que el anterior) | ⚠️ Duplicado | [`DISCOVERY-MXCE-1025.md`](../specs/DISCOVERY-MXCE-1025.md) |
+Tres documentos vivos, escritos **a mano para stakeholders** — no se derivan de los specs ni se generan con
+un script. Están en lenguaje de proceso, sin jerga técnica, y su audiencia es Majo. Creados el
+**2026-09-02**; los mantiene Emiliano.
 
-> ⚠️ Los dos docs de discovery tienen contenido esencialmente idéntico. **Recomendación:** dejar uno solo en
-> Drive apuntando al repo, y archivar el otro. Dos copias divergentes es peor que ninguna.
+| Documento | Para qué se abre |
+| --- | --- |
+| [Comms Governance — qué estamos construyendo y por qué](https://docs.google.com/document/d/1Gvh4pypg2KA6yrFF3fnriTEE_glhs06D8p7ZLm46Ukk/edit) | Contexto. Se manda antes de una sesión o se usa para explicar el proyecto a alguien nuevo |
+| [Cómo cambia el proceso: hoy → mañana](https://docs.google.com/document/d/1VCrY2zg_ijye1X0zR_MX8_EiDIaa71XFCe89aB4XX1s/edit) | Se proyecta en pantalla. El recorrido de una solicitud, paso a paso |
+| [Decisiones y acuerdos](https://docs.google.com/document/d/1Ny3G8DxTSfOxW5bETTQcsH1rEHySFJRbnh6KHwKq9Ho/edit) | Se abre *en* la reunión. Arriba lo que falta decidir; abajo la bitácora de lo acordado |
+
+> **La relación con el repo es de traducción, no de copia** (decisión **D7** del charter). El repo es la
+> fuente de verdad técnica; estos docs cuentan lo mismo en lenguaje de negocio y omiten a propósito reglas,
+> rutas y nombres de dataset. Cuando una decisión se cierra, se registra en su ADR **y** en la bitácora del
+> doc de decisiones. Majo puede comentar y editar: para eso están en Drive.
 >
-> Ambos citan un `comms-governance-automation-context.md` "en la carpeta del proyecto" como fuente de verdad.
-> **Ese archivo no existe** — ni en la carpeta de Drive ni en el directorio local. Las referencias a sus §3-§10
-> quedan huérfanas; este repo lo reemplaza.
+> Un intento anterior — cinco docs generados por script que transcribían los specs — se descartó el
+> **2026-09-02**: era documentación de ingeniería con otro formato, inútil para la audiencia real.
+> Sus URLs dejaron de servir.
+>
+> Los docs archivados el 2026-09-02 (*Spec v0*, *Technical Discovery (MXCE-1025)*, `discovery-doc.md` y las
+> dos copias de *Spec v0*) citaban un `comms-governance-automation-context.md` "en la carpeta del proyecto"
+> como fuente de verdad. **Ese archivo nunca existió** — ni en Drive ni en local. Este repo lo reemplaza.
 
 ### Documentos de proceso (de Majo)
 

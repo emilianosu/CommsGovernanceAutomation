@@ -6,7 +6,7 @@ intake estructurado → validación por guardrails → aprobación → publicaci
 - **Jira:** [MXCE-1025](https://nubank.atlassian.net/browse/MXCE-1025) (Story) · epic padre [MXCE-1260](https://nubank.atlassian.net/browse/MXCE-1260) *Comms Governance Optimization*
 - **Board:** [MXCE / 30448](https://nubank.atlassian.net/jira/software/c/projects/MXCE/boards/30448)
 - **Slack:** `#mex-communications` (proceso) · group DM del proyecto (Emiliano / Eduardo / Majo)
-- **Drive (espejo para stakeholders):** [carpeta del proyecto](https://drive.google.com/drive/folders/1CnWSNFK4i-Dkkk-rGu-wrKdyyGU8g2yw)
+- **Drive (material de negocio para stakeholders):** [carpeta del proyecto](https://drive.google.com/drive/folders/1CnWSNFK4i-Dkkk-rGu-wrKdyyGU8g2yw)
 
 ## Equipo
 
@@ -21,8 +21,9 @@ intake estructurado → validación por guardrails → aprobación → publicaci
 Este proyecto sigue **Spec-Driven Development adaptado**: ningún PR sin un spec mergeado antes.
 El loop, los gates y sus dueños están en [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
-**La fuente de verdad de los specs es este repo.** Los Google Docs de la carpeta de Drive son una *vista*
-para stakeholders; el mapeo doc ↔ spec está en [`docs/sources.md`](./docs/sources.md).
+**La fuente de verdad técnica es este repo.** La carpeta de Drive no lo duplica: aloja tres documentos de
+negocio escritos a mano para stakeholders — contexto, el proceso hoy → mañana, y decisiones y acuerdos.
+Qué es cada uno, en [`docs/sources.md`](./docs/sources.md) §3.
 
 ## Estructura
 
