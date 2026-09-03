@@ -98,3 +98,9 @@ difícilmente como destino.
 6. **Sensibilidad a mayúsculas (riesgo R10).** El notebook mezcla comparación case-insensitive en los filtros
    con comparación exacta en el unpivot. Antes de reutilizar su query hay que fijar un solo criterio, y eso
    depende de verificar los valores reales de `communication_type`.
+
+7. **Cobertura de performance mal calculada si se ignora el canal.** Las 14 columnas de rate no son
+   transversales — cada canal solo llena 3 ([DISCOVERY](../specs/DISCOVERY-MXCE-1025.md) §5.1). Cualquier
+   métrica de cobertura ("% de comms con datos de performance") tiene que evaluarse **por canal, contra sus 3
+   columnas propias**, nunca contra las 14: hacerlo contra las 14 da ~79% de nulos por construcción, no por
+   falta real de datos, y sería una lectura falsa del dashboard.
