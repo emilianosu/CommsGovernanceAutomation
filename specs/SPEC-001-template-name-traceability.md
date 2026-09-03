@@ -31,11 +31,21 @@ componentes de la PK ya son capturables en el form v2**.
 Cerrar **O1**: que una comunicación aprobada pueda resolverse a sus filas de monitoreo.
 
 | Métrica | Baseline | Meta | Cómo se mide |
-|---|---|---|---|
-| % de comms aprobadas cuyo `template_name` hace match en `communications_monitoring` | **`TBD`** — pendiente de medir | **`TBD`** — se fija al conocer el baseline | Query de reconciliación (§7) sobre una ventana histórica acordada |
+| --- | --- | --- | --- |
+| % de comms aprobadas cuyo `template_name` hace match en `communications_monitoring` | **`TBD`** — bloqueado por `S1-R2` | **`TBD`** — se fija al conocer el baseline | Query de reconciliación (§7) sobre ventana acordada |
 
-> ⚠️ **La meta no se fija antes del baseline.** Poner un número ahora sería inventarlo. Medir el baseline es
-> la primera tarea de este slice; la meta se acuerda con Eduardo en el gate técnico, con el dato en mano.
+> ⚠️ **La meta no se fija antes del baseline.** Poner un número ahora sería inventarlo. La meta se acuerda
+> con Eduardo en el gate técnico, con el dato en mano.
+
+**Estado al 2026-09-02.** El acceso a `databricks-sql` quedó resuelto y el **lado de monitoreo del baseline
+ya está medido** ([`sql/`](../sql/), tres queries ejecutadas). Lo que sigue faltando es el **lado del
+ticket**: el porcentaje de match no se puede calcular sin la data de MEXCOMS, y cómo se expone hacia
+Databricks es `S1-R2` — pregunta abierta para Eduardo.
+
+Lo que sí queda fijado hoy es el **denominador**: en la ventana 2026-06-01 → 2026-09-02 hay **1,075
+templates no recurrentes** distintos (más 88 journey-moment que el governance no cubre). Ese es el universo
+contra el que se medirá el match, y es un orden de magnitud manejable para el muestreo manual del §7 paso 2
+si `S1-R2` no se resuelve a tiempo.
 
 ## 3. Alcance / No-alcance
 
@@ -72,30 +82,65 @@ reunión del 2026-08-28 y condiciona si la reconciliación es una query, un data
 
 ### 4.1 Mapeo de canales
 
-Los valores de `communication_type` deben verificarse contra datos reales antes de fijar el mapeo.
-El notebook *Non-recurrent Monitoring* aporta una **hipótesis con origen** —su unpivot compara contra
-`'Email'`, `'Push'` y `'Announcement'` en title case exacto— pero eso es un supuesto de su autor, no un hecho
-verificado. Se registra como tal:
+✅ **Verificado el 2026-09-02** contra datos reales
+([`profile_communication_types.sql`](../sql/profile_communication_types.sql)). La columna tiene
+**exactamente 3 valores**, en title case, sin variantes de case ni espacios. La hipótesis del notebook
+*Non-recurrent Monitoring* era correcta:
 
-| Channel (form v2) | `communication_type` esperado | Instrumentado |
-|---|---|:--:|
-| Email | `Email` — ⬜ asumido por el notebook, sin verificar | ✅ |
-| Push notification | `Push` — ⬜ asumido por el notebook, sin verificar | ✅ |
-| In-App Announcement | `Announcement` — ⬜ asumido por el notebook, sin verificar | ✅ |
-| Now Dashboard · Highlight (CC) · Highlight (Cuenta) · Discover More · Pop up · WhatsApp · SMS | — | ❌ sin filas |
+| Channel (form v2) | `communication_type` | Filas | Templates | Instrumentado |
+| --- | --- | --- | --- | --- |
+| Email | `Email` | 424,675 | 2,336 | ✅ |
+| Push notification | `Push` | 307,478 | 1,515 | ✅ |
+| In-App Announcement | `Announcement` | 25,602 | 489 | ✅ |
+| Now Dashboard · Highlight (CC) · Highlight (Cuenta) · Discover More · Pop up · WhatsApp · SMS | — | 0 | 0 | ❌ sin filas |
+
+> **`R10` del DISCOVERY queda cerrado.** El riesgo era que el notebook filtrara con `upper(...)` pero
+> hiciera el unpivot con igualdad exacta contra `'Email'`. Como no existe ninguna variante de case en la
+> columna, esa inconsistencia **no puede producir discrepancias**. El criterio de comparación queda fijado:
+> igualdad exacta contra el valor title case.
+>
+> `Announcement` arranca en **2023-07-31**, cuatro años después que Email y Push: cualquier baseline sobre
+> ventana larga tiene que acotarse por canal o subestimará la cobertura de announcements.
 
 ## 5. Reglas
 
 | ID | Regla | Fuente | Estado |
 |---|---|---|---|
 | `R-TPL-01` | `template_name` debe coincidir **exactamente** con el nombre registrado en la herramienta `communication_handler` | Descripción de la columna en `CommunicationsMonitoring.scala` | Activa |
-| `R-TPL-02` | La comparación de `template_name` se hace normalizada: `trim` + colapso de espacios internos + case-folding | Propuesta de este spec | ⬜ Pendiente de gate |
+| `R-TPL-02` | La comparación de `template_name` se hace normalizada: `trim` + colapso de espacios internos + case-folding | Propuesta de este spec | ⬜ Pendiente de gate — ✅ verificada sin colisiones |
 | `R-TPL-03` | Cada canal de un ticket lleva **su propio** `template_name`; un ticket con 3 canales produce 3 llaves | Form v2, campos 6/10/14 | Activa |
 | `R-TPL-04` | Un `template_name` no puede reutilizarse en dos comms distintas con ventanas de fecha traslapadas | Propuesta de este spec | ⬜ Pendiente de gate |
 | `R-TPL-05` | El contrato de naming **no debe romper** el filtro `template_name LIKE '%jm%'` de `JourneyMomentCommunicationsMonitoring` | `JourneyMomentCommunicationsMonitoring.scala` | Activa — restricción dura |
 
 > `R-TPL-05` es una restricción real descubierta en el código: existe un dataset downstream que depende del
 > naming actual. Cualquier convención propuesta debe verificarse contra él **antes** del gate.
+>
+> ✅ **Verificado el 2026-09-02** ([`verify_journey_moment_filter.sql`](../sql/verify_journey_moment_filter.sql)):
+> 120 templates hacen match con `%jm%`, y son **exactamente los mismos 120** con o sin case-folding. Aplicar
+> `R-TPL-02` no cambia el conjunto que ve el dataset downstream. La restricción se cumple.
+
+### 5.1 Hallazgos del perfilado que el contrato debe absorber
+
+Medidos el 2026-09-02 sobre las 757,755 filas
+([`profile_template_names.sql`](../sql/profile_template_names.sql)):
+
+| Hallazgo | Dato | Qué implica para el contrato |
+| --- | --- | --- |
+| **Cero colisiones bajo normalización** | 4,238 distintos = 4,238 normalizados | `R-TPL-02` es segura, pero no rescata nada. No hay variantes por case que unificar |
+| **Las dos convenciones no conviven** | Las rutas con slashes mueren el **2023-06-19**; desde entonces todo es kebab-case | Los 676 templates con slashes son un bloque histórico **cerrado**. El contrato puede declararlos irrecuperables sin costo operativo |
+| **Centinela `NO-TEMPLATE`** | 1,217 filas, **2.1M de envíos**, último el 2022-09-13 | Histórico, pero el contrato debe **prohibirlo explícitamente**: es lo que un campo de texto libre invita a escribir cuando el requester no sabe qué poner |
+| **`template_name` no es único por canal** | 102 templates aparecen bajo 2 `communication_type` | ⚠️ Ver abajo — cambia la llave |
+
+> ⚠️ **La llave de join es el par `(template_name, communication_type)`, no `template_name` solo.**
+> El grain de §4 ya lo decía, pero el nombre del slice y el enunciado de O1 sugieren lo contrario. Un join
+> por `template_name` suelto contra un ticket multicanal **duplicaría filas y atribuiría el performance del
+> canal equivocado**. Son 102 de 4,238 (2.4%) — poco volumen, pero es corrupción silenciosa de datos, no
+> ruido estadístico.
+
+**Lectura de conjunto:** el naming histórico está **mucho mejor** de lo que anticipaba `S1-R3`. La hipótesis
+era que la inconsistencia obligaría a bajar la meta de O1 alcanzable; los datos dicen que la inconsistencia
+es histórica y ya cerrada. Eso **debilita** el argumento a favor de una llave nueva y **refuerza** vivir con
+reconciliación post-send — insumo directo de [ADR-0004](../adr/0004-ticket-monitoring-join-key.md).
 
 **`R-TPL-02` no impone nada nuevo.** El notebook *Non-recurrent Monitoring* ya aplica `upper(template_name)`
 en sus filtros — necesitó case-folding para que las búsquedas funcionaran. La regla formaliza una
@@ -103,13 +148,15 @@ normalización que en la práctica ya se hace a mano; eso es lo que conviene lle
 
 ## 6. Criterios de aceptación
 
-- [ ] Baseline medido y documentado: número de `template_name` distintos, % de valores que sobreviven la
-      normalización de `R-TPL-02` sin colisionar, y % de match actual contra tickets.
+- [~] Baseline medido y documentado: **4,238** `template_name` distintos, **100%** sobrevive la normalización
+      de `R-TPL-02` sin colisionar. ⬜ Falta el % de match contra tickets — bloqueado por `S1-R2`.
 - [ ] Contrato de naming escrito, con ejemplos válidos e inválidos.
-- [ ] Verificado que el contrato no rompe `JourneyMomentCommunicationsMonitoring` (`R-TPL-05`).
+- [x] Verificado que el contrato no rompe `JourneyMomentCommunicationsMonitoring` (`R-TPL-05`) —
+      [`verify_journey_moment_filter.sql`](../sql/verify_journey_moment_filter.sql), 2026-09-02.
 - [ ] Query de reconciliación en `sql/`, ejecutable y comentada, que dada una ventana devuelve por ticket:
       filas de monitoreo encontradas, o el motivo de la falla de match.
-- [ ] Mapeo `Channel` → `communication_type` verificado contra valores reales de la tabla (§4.1).
+- [x] Mapeo `Channel` → `communication_type` verificado contra valores reales de la tabla (§4.1) —
+      [`profile_communication_types.sql`](../sql/profile_communication_types.sql), 2026-09-02.
 - [ ] Meta de O1 acordada con Eduardo, con el baseline en mano.
 - [ ] [ADR-0004](../adr/0004-ticket-monitoring-join-key.md) resuelto: se vive con reconciliación post-send, o
       se propone llave nueva.
@@ -136,27 +183,32 @@ Convenciones: `execute_sql_read_only`, naming de 3 niveles, `LIMIT 100` al explo
 | ID | Riesgo | Impacto | Mitigación |
 |---|---|---|---|
 | S1-R2 | Cómo se expone Jira hacia Databricks está sin definir | **Alto** — condiciona si la reconciliación es automatizable | Pregunta para Eduardo en el gate; mientras tanto, muestreo manual |
-| S1-R3 | El naming histórico puede ser tan inconsistente que la normalización no rescate lo suficiente | Medio — bajaría la meta de O1 alcanzable | Es justo lo que mide el paso 1; si es el caso, refuerza ADR-0004 |
+| ~~S1-R3~~ | ~~El naming histórico puede ser tan inconsistente que la normalización no rescate lo suficiente~~ | **Descartado 2026-09-02** | Medido: cero colisiones, y la convención vieja cerró en 2023-06-19. Ver §5.1 |
 | S1-R4 | `template_name` es texto abierto en el form v2 | El contrato es convención, no restricción del sistema | Proponer validación en el mismo ticket de Atlassian Support de R3/R4/R5 |
 | S1-R5 | Cambiar la convención puede romper `JourneyMomentCommunicationsMonitoring` | Alto — dataset downstream de otro squad | `R-TPL-05` como restricción dura; verificar antes del gate |
-| S1-R6 | Los valores reales de `communication_type` siguen sin verificar (§4.1); el MCP `databricks-sql` requiere autenticación | Medio — bloquea cerrar el mapeo de canales y el riesgo R10 del DISCOVERY | Es el paso 1 del §7; resolver el acceso antes del gate |
+| ~~S1-R6~~ | ~~Los valores reales de `communication_type` siguen sin verificar; el MCP `databricks-sql` requiere autenticación~~ | **Cerrado 2026-09-02** | El acceso quedó resuelto; §4.1 verificado y **R10 cerrado**. Su ID no se recicla |
+| **S1-R7** | La llave real es el par `(template_name, communication_type)`: 102 templates existen bajo dos canales | **Alto** — un join por `template_name` solo duplica filas y atribuye performance al canal equivocado | Fijar el par como llave en el contrato y en la query de reconciliación. Ver §5.1 |
 
 > *`S1-R1` (falta de permiso al notebook) se retiró el 2026-09-01: el acceso quedó resuelto. Su ID no se
 > recicla.*
 
 ### Naming observado en producción
 
-Los dos ejemplos que documenta el notebook son **dos convenciones distintas conviviendo en la misma
-columna** — el mejor anticipo disponible de lo que va a encontrar el baseline (`S1-R3`):
+Los dos ejemplos que documenta el notebook parecían **dos convenciones conviviendo en la misma columna**:
 
 ```text
 coll-roxinha2-d-mail-d30                          ← kebab-case con prefijos de dominio
 acquisition/duplicate-email/emails/default/v1     ← ruta con slashes y versión
 ```
 
-Difieren en separador, en profundidad y en si llevan versión. Un contrato de naming tiene que decidir qué
-hacer con el histórico que no lo cumple: normalizar, mapear, o declararlo irrecuperable — y esa respuesta es
-justamente el insumo de [ADR-0004](../adr/0004-ticket-monitoring-join-key.md).
+✅ **Corregido con datos el 2026-09-02: no conviven, se sucedieron.** La convención de rutas con slashes
+tiene su última fila el **2023-06-19**; desde entonces las 628,478 filas escritas son kebab-case. Los dos
+ejemplos del notebook son reales, pero uno de ellos es histórico.
+
+Eso cambia la respuesta a "qué hacer con el histórico que no cumple el contrato": no hay que normalizarlo ni
+mapearlo, se puede **declarar irrecuperable** — nadie escribe en esa convención desde hace más de tres años.
+Insumo directo de [ADR-0004](../adr/0004-ticket-monitoring-join-key.md), y en la dirección de vivir con
+reconciliación post-send en vez de pedir una llave nueva.
 
 ## 9. Decisiones abiertas
 

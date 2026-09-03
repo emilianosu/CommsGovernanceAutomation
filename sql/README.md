@@ -12,17 +12,31 @@ Queries de perfilado y reconciliación del [Slice 1](../specs/SPEC-001-template-
 - Nunca `SELECT *` en tablas > 1 GB.
 - Comentar la intención de negocio en la lógica de `CASE WHEN`.
 
-## Pendientes (§7 de SPEC-001)
+## Estado (§7 de SPEC-001)
 
-- [ ] `profile_template_names.sql` — `template_name` distintos, distribución temporal, patrones de naming
-      inconsistente (variantes por case, espacios, sufijos de fecha), y colisiones bajo la normalización de
-      `R-TPL-02`.
-- [ ] `profile_communication_types.sql` — valores reales de `communication_type`, para cerrar el mapeo
-      `Channel` → `communication_type` (§4.1 de SPEC-001).
-- [ ] `reconcile_ticket_to_monitoring.sql` — el join post-send: dado una ventana, por ticket devuelve las
-      filas de monitoreo encontradas o el motivo de la falla de match.
-- [ ] `verify_journey_moment_filter.sql` — verificar que el contrato de naming propuesto no cambia qué
-      templates hace match `LIKE '%jm%'` (restricción `R-TPL-05`).
+Ejecutadas el **2026-09-02** con `execute_sql_read_only`. Cada archivo lleva sus resultados inline como
+comentario, para que se lean sin volver a correr nada.
+
+- [x] [`profile_template_names.sql`](./profile_template_names.sql) — cardinalidad, colisiones bajo
+      `R-TPL-02`, patrones de naming y distribución temporal.
+- [x] [`profile_communication_types.sql`](./profile_communication_types.sql) — valores reales de
+      `communication_type`. Cierra §4.1 de SPEC-001 y el riesgo **R10** del DISCOVERY.
+- [x] [`verify_journey_moment_filter.sql`](./verify_journey_moment_filter.sql) — `R-TPL-05` verificada, y el
+      denominador no recurrente del baseline de O1.
+- [ ] `reconcile_ticket_to_monitoring.sql` — el join post-send. **Bloqueada por `S1-R2`:** falta saber cómo
+      se expone la data de Jira hacia Databricks. Sin el lado del ticket no hay nada que reconciliar.
+
+### Qué salió del perfilado
+
+| Hallazgo | Dato |
+| --- | --- |
+| `communication_type` tiene exactamente 3 valores | `Email` · `Push` · `Announcement`, title case, sin variantes |
+| La normalización de `R-TPL-02` no colisiona | 4,238 distintos = 4,238 normalizados |
+| Las dos convenciones de naming no conviven | Las rutas con slashes cerraron el 2023-06-19 |
+| La llave es un **par**, no una columna | 102 templates viven bajo dos `communication_type` |
+| Existe un centinela `NO-TEMPLATE` | 1,217 filas, 2.1M de envíos — histórico, último en 2022-09-13 |
+
+Detalle y consecuencias en [SPEC-001 §5.1](../specs/SPEC-001-template-name-traceability.md).
 
 ## Punto de partida
 

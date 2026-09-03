@@ -43,9 +43,22 @@ envíos reales. **Cualquier join es post-send**; no hay forma de escribir la lig
 | **C** — híbrida | A ahora, B como spec de largo plazo si el baseline demuestra que hace falta |
 
 **Recomendación: C.** El form v2 **ya captura los tres componentes de la PK** (campos 3/7/11, 4-5/8-9/12-13 y
-6/10/14): la llave no falta en el diseño, falta validarla. Y el baseline que produce el Slice 1 es justamente
-la evidencia para decidir si B se justifica — si la normalización rescata la mayoría de los casos, no; si el
-naming histórico resulta irrecuperable, B tiene su caso hecho con datos en vez de con intuición.
+6/10/14): la llave no falta en el diseño, falta validarla.
+
+> ✅ **Evidencia nueva — perfilado del 2026-09-02** ([`sql/`](../sql/), 757,755 filas). El argumento a favor
+> de **A** se fortaleció con datos:
+>
+> - **Cero colisiones** al normalizar: 4,238 `template_name` distintos siguen siendo 4,238 tras `upper+trim`.
+> - **Las dos convenciones de naming no conviven, se sucedieron.** Las rutas con slashes tienen su última
+>   fila el **2023-06-19**; desde entonces todo es kebab-case. El histórico "irrecuperable" es un bloque
+>   cerrado de hace tres años, no un problema activo.
+>
+> Es decir: el escenario que justificaba **B** —naming tan inconsistente que la normalización no rescata—
+> **no se materializó**. La decisión puede tomarse mañana con datos, no con intuición.
+>
+> ⚠️ **Pero apareció otra cosa:** 102 templates existen bajo **dos** `communication_type` distintos. La llave
+> es el par `(template_name, communication_type)`, no `template_name` solo. No cambia la elección A/B/C —
+> cambia cómo se escribe la query en cualquiera de las tres. Registrado como `S1-R7`.
 
 **Si se decide B:** el Slice 1 cambia de alcance por completo, pasa a depender de equipos externos, y la
 decisión `D8` del charter (trazabilidad como primer slice) tendría que revisarse.
@@ -168,18 +181,23 @@ Vale como puente, difícilmente como destino.
 1. **¿Cómo se expone la data de Jira hacia Databricks?** (`S1-R2`) Es una pregunta abierta desde el
    2026-08-28 y condiciona si la reconciliación es una query, un dataset o un proceso manual. **Alto impacto:**
    determina si el Slice 1 es automatizable.
-2. **Meta de O1.** No se fija antes del baseline — poner un número ahora sería inventarlo. Lo que se pide
-   mañana es acordar *cuándo* se fija y sobre qué ventana histórica se mide.
-3. **Confirmar dos comportamientos de tu notebook**, ambos registrados como riesgos y ninguno un reproche —
-   son razonables para un visor de métricas y problemáticos solo si el dashboard de governance los hereda:
+2. **Meta de O1.** No se fija antes del baseline. El **lado de monitoreo ya está medido**; falta el lado del
+   ticket, que depende de la pregunta 1. El denominador sí quedó fijado: **1,075 templates no recurrentes**
+   distintos en la ventana 2026-06-01 → 2026-09-02 — un universo chico, muestreable a mano si la pregunta 1
+   no se resuelve pronto. Lo que se pide mañana es acordar la ventana de medición.
+3. **`S1-R7` — la llave es un par, no una columna.** 102 templates aparecen bajo dos `communication_type`
+   distintos. ¿Es intencional (una misma campaña reusando nombre en Email y Push) o es contaminación de
+   naming? La respuesta decide si el contrato lo prohíbe o lo acomoda.
+4. **Confirmar un comportamiento de tu notebook** — registrado como riesgo, no como reproche: es razonable
+   para un visor de métricas y problemático solo si el dashboard de governance lo hereda.
    - **`R9`** — `HAVING max(coalesce(metric_value, 0.0)) > 0` excluye todo template cuyo mejor rate en la
      ventana sea 0. Una comm **enviada sin engagement desaparece de la vista sin aviso**, y para governance
      esa es justo la fila que hay que ver.
-   - **`R10`** — los filtros de usuario comparan con `upper(...)` pero el unpivot compara
-     `communication_type = 'Email'` en title case exacto. Si el valor real difiere en mayúsculas, la fila pasa
-     el filtro, no produce filas en el unpivot, y el template **desaparece en silencio**.
-4. **Acceso a `databricks-sql` para correr el perfilado.** Sin él no se puede cerrar el mapeo de canales
-   (`S1-R6`), que es el paso 1 del plan de verificación del Slice 1.
+
+> ✅ **Dos puntos que estaban en esta lista salieron el 2026-09-02 y ya no ocupan tiempo de la sesión:**
+> el **acceso a `databricks-sql`** quedó resuelto y el perfilado corrió, y con él **`R10` quedó cerrado** —
+> la columna tiene 3 valores sin ninguna variante de case, así que la comparación inconsistente del notebook
+> no puede producir discrepancias.
 
 ## Pendientes que necesitan a Majo
 

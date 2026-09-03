@@ -73,10 +73,31 @@ propio spec.
 ⬜ **Pendiente.** A resolver por Eduardo en la working session del 2026-09-03.
 
 **Recomendación: opción C.** La reconciliación post-send es suficiente para desbloquear el dashboard y el
-objetivo O1, no toca sistemas de terceros, y aplica retroactivamente. El baseline que produce el Slice 1 es
-justamente la evidencia necesaria para argumentar si vale la pena la opción B: si la normalización rescata la
-mayoría de los casos, B no se justifica; si el naming histórico resulta irrecuperable, B tiene su caso hecho
-con datos.
+objetivo O1, no toca sistemas de terceros, y aplica retroactivamente.
+
+### Evidencia del perfilado (2026-09-02)
+
+El perfilado del Slice 1 ya corrió ([`sql/`](../sql/), 757,755 filas) y responde justamente la pregunta que
+decidía entre A/C y B:
+
+| Medición | Resultado | Lectura |
+| --- | --- | --- |
+| Colisiones al normalizar `template_name` | **Cero** — 4,238 distintos siguen siendo 4,238 tras `upper+trim` | La normalización es segura |
+| Convivencia de convenciones de naming | **No conviven.** Las rutas con slashes cierran el 2023-06-19; desde entonces todo es kebab-case | El histórico "irrecuperable" es un bloque cerrado, no un problema activo |
+| Centinela `NO-TEMPLATE` | 1,217 filas, 2.1M envíos, último en **2022-09-13** | Modo de falla real pero histórico |
+
+**El escenario que justificaba B no se materializó.** La hipótesis era que el naming estuviera tan
+inconsistente que la normalización no rescatara lo suficiente; los datos dicen lo contrario. Eso deja a **C**
+—y en el límite a **A**— como la opción con respaldo empírico, y a B sin caso salvo que aparezca otra razón.
+
+⚠️ **Corrección al planteamiento, no a la decisión.** 102 templates existen bajo **dos**
+`communication_type` distintos. La liga es el par `(template_name, communication_type)`, no `template_name`
+solo — como ya decía la PK, pero no el enunciado de las opciones. Un join por la columna sola duplicaría
+filas y atribuiría performance al canal equivocado. Aplica igual a A, B y C; registrado como `S1-R7`.
+
+> Lo que **sigue faltando** es el lado del ticket: sin saber cómo se expone MEXCOMS hacia Databricks
+> (`S1-R2`), el % de match no se puede calcular. Esa sigue siendo la pregunta que Eduardo tiene que
+> responder, y no la bloquea esta decisión.
 
 ## Consecuencias
 

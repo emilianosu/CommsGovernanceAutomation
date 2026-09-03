@@ -316,7 +316,7 @@ Sin resolver: el campo es **texto abierto**, así que la normalización (case, e
 | R7 | `JourneyMomentCommunicationsMonitoring` filtra por `template_name LIKE '%jm%'` | Cambiar la convención de naming puede romper un dataset downstream | Verificar antes de proponer contrato de naming (SPEC-001) |
 | R8 | `safeRate` devuelve `0.0` con denominador `0` | Un rate en `0.0` es ambiguo en el dashboard | Mostrar siempre junto a `total_templates_sent` |
 | R9 | El notebook excluye templates enviados con engagement cero: `HAVING max(coalesce(metric_value, 0.0)) > 0` | Una comm que se envió y no tuvo resultado **desaparece de la vista sin aviso** — justo la señal que governance necesita ver | No heredar ese filtro en el dashboard; distinguir "sin envíos" de "enviado con cero" vía `total_templates_sent` |
-| R10 | En el notebook el filtro de usuario es case-insensitive (`upper(...)`) pero el unpivot compara `communication_type = 'Email'` exacto | Si el valor real difiere en mayúsculas, la fila pasa el filtro externo, produce cero filas en el unpivot y el template se esfuma en silencio | Verificar `SELECT DISTINCT communication_type` — paso 1 del plan de verificación de [SPEC-001](./SPEC-001-template-name-traceability.md) |
+| ~~R10~~ | ~~En el notebook el filtro de usuario es case-insensitive (`upper(...)`) pero el unpivot compara `communication_type = 'Email'` exacto~~ | **Cerrado 2026-09-02** — la columna tiene exactamente 3 valores (`Email`, `Push`, `Announcement`) sin ninguna variante de case, así que la inconsistencia no puede producir discrepancias | Verificado en [`sql/profile_communication_types.sql`](../sql/profile_communication_types.sql). Aun así, fijar un solo criterio de comparación en el dashboard |
 
 **R9 es la contracara de R8.** Ante la ambigüedad del `0.0` de `safeRate`, el notebook resuelve
 **descartando** la fila ambigua en lugar de desambiguarla. Para un visor de métricas es defendible; para
@@ -329,7 +329,7 @@ governance está al revés — una comm enviada con cero clicks es la fila más 
 | **Atlassian Support** | Ticket para *Update Existing Workflow* en MEXCOMS aún no abierto (R3, R4, R5 deberían ir juntos) | Majo / Emiliano |
 | **MXCE-1025** | El card no tiene descripción (`description = null`, priority `Low`, status `Backlog`, 0 comentarios, 0 subtasks) | Emiliano |
 | **Valores de negocio** | `R-DUR-01` y `R-VOL-01` sin definir | Majo |
-| **`communication_type`** | Los valores reales de la columna siguen sin verificar: el MCP `databricks-sql` requiere autenticación. Bloquea cerrar [SPEC-001](./SPEC-001-template-name-traceability.md) §4.1 y el riesgo R10 | Emiliano |
+| ✅ **`communication_type`** | **Cerrado el 2026-09-02.** El acceso a `databricks-sql` quedó resuelto; la columna tiene 3 valores verificados. [SPEC-001](./SPEC-001-template-name-traceability.md) §4.1 y el riesgo R10 quedan cerrados | Emiliano |
 
 ## 8. Preguntas abiertas → ADR
 
