@@ -152,3 +152,4 @@ join es necesariamente **post-send**.
 | 2026-09-01 | Incorporados los hallazgos del notebook *Non-recurrent Monitoring*: matriz métrica↔canal, riesgos R9 y R10, y corrección de los hechos de ADR-0005 | Emiliano Mendoza |
 | 2026-09-02 | §5 pasa a desglose exacto (12 = 3 + 7 + 2) y abre la sub-pregunta de **D9** sobre los ítems de *Experiment*; se retira `S1-R1` (permiso al notebook, resuelto) | Emiliano Mendoza |
 | 2026-09-02 | **D7** reformulada: Drive deja de ser un espejo generado de los specs y pasa a alojar material de negocio escrito a mano para stakeholders. Los 3 docs y su propósito, en [`docs/sources.md`](../docs/sources.md) §3 | Emiliano Mendoza |
+| 2026-09-02 | Perfilado de `communications_monitoring` ([`sql/`](../sql/)): se retiran los riesgos `R10` y `S1-R3`/`S1-R6`, y el blocker de `communication_type`. Se abre **`R11`** — la llave de join es el par `(template_name, communication_type)`, no la columna sola | Emiliano Mendoza |

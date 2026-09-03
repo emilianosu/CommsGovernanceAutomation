@@ -148,8 +148,9 @@ normalización que en la práctica ya se hace a mano; eso es lo que conviene lle
 
 ## 6. Criterios de aceptación
 
-- [~] Baseline medido y documentado: **4,238** `template_name` distintos, **100%** sobrevive la normalización
-      de `R-TPL-02` sin colisionar. ⬜ Falta el % de match contra tickets — bloqueado por `S1-R2`.
+- [ ] Baseline medido y documentado. **Lado de monitoreo hecho** el 2026-09-02: 4,238 `template_name`
+      distintos, 100% sobrevive la normalización de `R-TPL-02` sin colisionar, denominador no recurrente de
+      1,075. **Falta el % de match contra tickets** — bloqueado por `S1-R2`.
 - [ ] Contrato de naming escrito, con ejemplos válidos e inválidos.
 - [x] Verificado que el contrato no rompe `JourneyMomentCommunicationsMonitoring` (`R-TPL-05`) —
       [`verify_journey_moment_filter.sql`](../sql/verify_journey_moment_filter.sql), 2026-09-02.
@@ -163,18 +164,15 @@ normalización que en la práctica ya se hace a mano; eso es lo que conviene lle
 
 ## 7. Plan de verificación
 
-1. **Perfilado del estado actual** — read-only sobre `etl.mx__dataset.communications_monitoring`:
-   - `template_name` distintos y su distribución en el tiempo.
-   - Valores de `communication_type` reales (cierra §4.1).
-   - Detección de patrones de naming inconsistente: variantes por case, espacios, sufijos de fecha.
-   - Cuántos valores colisionarían al aplicar la normalización de `R-TPL-02`.
-2. **Muestreo de tickets** — tomar tickets de MEXCOMS de una ventana conocida e intentar el match a mano.
-   Da el baseline real y, sobre todo, **los modos de falla**.
-3. **Query de reconciliación** — implementarla en `sql/`, correrla sobre la ventana y contrastar contra el
-   match manual del paso 2.
-4. **Verificar `R-TPL-05`** — confirmar que ningún template real que hoy hace match con `%jm%` cambia de
-   clasificación bajo el contrato propuesto.
-5. **Gate técnico con Eduardo** — revisar baseline, contrato y query; fijar la meta de O1.
+1. ✅ **Perfilado del estado actual** — hecho el **2026-09-02**, read-only sobre las 757,755 filas de
+   `etl.mx__dataset.communications_monitoring`. Resultados en [`sql/`](../sql/) y en §5.1.
+2. ⬜ **Muestreo de tickets** — tomar tickets de MEXCOMS de una ventana conocida e intentar el match a mano.
+   Da el % de match y, sobre todo, **los modos de falla**. **Bloqueado por `S1-R2`.**
+3. ⬜ **Query de reconciliación** — implementarla en `sql/`, correrla sobre la ventana y contrastar contra el
+   match manual del paso 2. Debe joinear por el **par** `(template_name, communication_type)` — ver `S1-R7`.
+4. ✅ **Verificar `R-TPL-05`** — hecho: los 120 templates que hacen match con `%jm%` son los mismos con o sin
+   case-folding. Falta re-verificarlo cuando el contrato de naming completo esté escrito.
+5. ⬜ **Gate técnico con Eduardo** — revisar baseline, contrato y query; fijar la meta de O1.
 
 Convenciones: `execute_sql_read_only`, naming de 3 niveles, `LIMIT 100` al explorar, CTEs sobre subqueries.
 
@@ -182,15 +180,18 @@ Convenciones: `execute_sql_read_only`, naming de 3 niveles, `LIMIT 100` al explo
 
 | ID | Riesgo | Impacto | Mitigación |
 |---|---|---|---|
-| S1-R2 | Cómo se expone Jira hacia Databricks está sin definir | **Alto** — condiciona si la reconciliación es automatizable | Pregunta para Eduardo en el gate; mientras tanto, muestreo manual |
-| ~~S1-R3~~ | ~~El naming histórico puede ser tan inconsistente que la normalización no rescate lo suficiente~~ | **Descartado 2026-09-02** | Medido: cero colisiones, y la convención vieja cerró en 2023-06-19. Ver §5.1 |
-| S1-R4 | `template_name` es texto abierto en el form v2 | El contrato es convención, no restricción del sistema | Proponer validación en el mismo ticket de Atlassian Support de R3/R4/R5 |
-| S1-R5 | Cambiar la convención puede romper `JourneyMomentCommunicationsMonitoring` | Alto — dataset downstream de otro squad | `R-TPL-05` como restricción dura; verificar antes del gate |
-| ~~S1-R6~~ | ~~Los valores reales de `communication_type` siguen sin verificar; el MCP `databricks-sql` requiere autenticación~~ | **Cerrado 2026-09-02** | El acceso quedó resuelto; §4.1 verificado y **R10 cerrado**. Su ID no se recicla |
+| S1-R2 | Cómo se expone Jira hacia Databricks está sin definir | **Alto** — condiciona si la reconciliación es automatizable | Pregunta para Eduardo en el gate; mientras tanto, muestreo manual sobre los 1,075 templates de §2 |
+| S1-R4 | `template_name` es texto abierto en el form v2 | El contrato es convención, no restricción del sistema | Proponer validación en el mismo ticket de Atlassian Support de R3/R4/R5. El centinela `NO-TEMPLATE` de §5.1 es la evidencia de que el riesgo ya se materializó |
+| S1-R5 | Cambiar la convención puede romper `JourneyMomentCommunicationsMonitoring` | Alto — dataset downstream de otro squad | ✅ `R-TPL-02` verificada contra el filtro: no cambia el conjunto de 120 templates. Falta re-verificar cuando el contrato completo esté escrito |
 | **S1-R7** | La llave real es el par `(template_name, communication_type)`: 102 templates existen bajo dos canales | **Alto** — un join por `template_name` solo duplica filas y atribuye performance al canal equivocado | Fijar el par como llave en el contrato y en la query de reconciliación. Ver §5.1 |
 
-> *`S1-R1` (falta de permiso al notebook) se retiró el 2026-09-01: el acceso quedó resuelto. Su ID no se
-> recicla.*
+> **Riesgos retirados.** Sus IDs no se reciclan.
+>
+> - `S1-R1` — falta de permiso al notebook. Retirado el **2026-09-01**: el acceso quedó resuelto.
+> - `S1-R3` — naming histórico irrecuperable. Retirado el **2026-09-02**: medido, cero colisiones y la
+>   convención vieja cerró en 2023-06-19. Ver §5.1.
+> - `S1-R6` — `communication_type` sin verificar por falta de acceso a `databricks-sql`. Retirado el
+>   **2026-09-02**: acceso resuelto, §4.1 verificado y **R10** cerrado.
 
 ### Naming observado en producción
 

@@ -77,7 +77,7 @@ un script. Están en lenguaje de proceso, sin jerga técnica, y su audiencia es 
 | Recurso | Nota |
 | --- | --- |
 | `etl.mx__dataset.communications_monitoring` | **21 columnas**, verificado vía `DESCRIBE TABLE` el 2026-08-31 y reconfirmado el 2026-09-02. Schema en [`DISCOVERY`](../specs/DISCOVERY-MXCE-1025.md) §5.1. **757,755 filas**, ventana 2019-07-02 → 2026-09-02. Perfilado completo en [`sql/`](../sql/) |
-| [Notebook *Non-recurrent Monitoring*](https://nubank-e2-general.cloud.databricks.com/editor/notebooks/2219645164459186) (`2219645164459186`, VPN) | Leído 2026-09-01. Notebook parametrizado por widgets (`from_date`, `to_date`, `your_templates`, `your_comm_types`) que pivotea la tabla a matriz **template × métrica × día**, con métricas seleccionadas según el canal. Soporte: `@eduardoahumada`. Aporta la matriz métrica↔canal ([`DISCOVERY`](../specs/DISCOVERY-MXCE-1025.md) §5.1), confirma el grain, y origina los riesgos **R9** y **R10** |
+| [Notebook *Non-recurrent Monitoring*](https://nubank-e2-general.cloud.databricks.com/editor/notebooks/2219645164459186) (`2219645164459186`, VPN) | Leído 2026-09-01. Notebook parametrizado por widgets (`from_date`, `to_date`, `your_templates`, `your_comm_types`) que pivotea la tabla a matriz **template × métrica × día**, con métricas seleccionadas según el canal. Soporte: `@eduardoahumada`. Aporta la matriz métrica↔canal ([`DISCOVERY`](../specs/DISCOVERY-MXCE-1025.md) §5.1), confirma el grain, y origina los riesgos **R9** y **R10** (este último retirado el 2026-09-02) |
 | [Metadata en Free Willy](https://backoffice.nubank.com.br/free-willy/datasets/nu-mx/dataset/communications-monitoring/?section=columns) | El schema declarado devolvió vacío por MCP; se usó `DESCRIBE TABLE` como fuente autoritativa |
 
 ## 6. Slack
@@ -102,8 +102,13 @@ un script. Están en lenguaje de proceso, sin jerga técnica, y su audiencia es 
 
 | Blocker | Detalle | Dueño |
 | --- | --- | --- |
-| ⬜ Atlassian Support | Ticket de *Update Existing Workflow* sin abrir (R3 + R4 + R5 deberían ir juntos) | Majo / Emiliano |
-| ✅ MXCE-1025 | Descripción y criterios de aceptación escritos el 2026-09-02; priority `Medium`, status `In Progress` | Emiliano |
-| ⬜ Valores de negocio | `R-DUR-01`, `R-VOL-01`, `R-OVL-01` sin definir | Majo |
-| ⬜ Jira → Databricks | Cómo se expone la data de Jira hacia Databricks, sin definir | Eduardo |
-| ✅ `communication_type` | Verificado el 2026-09-02: exactamente 3 valores (`Email`, `Push`, `Announcement`). Cierra el riesgo **R10** | Emiliano |
+| Atlassian Support | Ticket de *Update Existing Workflow* sin abrir (R3 + R4 + R5 deberían ir juntos) | Majo / Emiliano |
+| Valores de negocio | `R-DUR-01`, `R-VOL-01`, `R-OVL-01` sin definir | Majo |
+| Jira → Databricks | Cómo se expone la data de Jira hacia Databricks, sin definir. Bloquea el % de match del baseline de O1 (`S1-R2`) | Eduardo |
+
+**Cerrados el 2026-09-02:**
+
+| Blocker | Cómo se cerró |
+| --- | --- |
+| MXCE-1025 | Descripción y criterios de aceptación escritos; priority `Low` → `Medium`, status `Backlog` → `In Progress` |
+| `communication_type` | Acceso a `databricks-sql` resuelto y columna verificada: 3 valores exactos. Cierra el riesgo **R10** y §4.1 de SPEC-001 |

@@ -210,5 +210,8 @@ Vale como puente, difícilmente como destino.
 - [ ] Las 5 decisiones cerradas o con fecha de cierre, y sus ADRs pasados a `Accepted`.
 - [ ] Milestones del [PLAN](../specs/PLAN-MXCE-1025.md) §4, hoy `⬜ A definir en la working session`.
 - [ ] Gate técnico del SPEC-001 resuelto (Eduardo) y gate de negocio del contrato de naming (Majo).
-- [ ] Tres pendientes de housekeeping del PLAN §6: descripción de MXCE-1025, subtasks por slice, y revisar
-      la prioridad del card (hoy `Low`, con el epic padre en `Backlog`).
+- [ ] Acordar la ventana histórica sobre la que se mide el baseline de O1, y confirmar `S1-R7`.
+
+> El housekeeping de MXCE-1025 que estaba en esta lista **se cerró el 2026-09-02**: el card tiene
+> descripción, criterios de aceptación, priority `Medium` y status `In Progress`. Los slices se abrirán como
+> stories bajo el epic MXCE-1260, no como subtasks. Ver [PLAN](../specs/PLAN-MXCE-1025.md) §6.
