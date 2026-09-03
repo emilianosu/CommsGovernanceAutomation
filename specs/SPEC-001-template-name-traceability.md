@@ -1,7 +1,7 @@
 # SPEC-001 — Trazabilidad: `template_name` como join key
 
 | | |
-|---|---|
+| --- | --- |
 | **Jira** | [MXCE-1025](https://nubank.atlassian.net/browse/MXCE-1025) |
 | **Estado** | Draft — para revisar en la working session del 2026-09-03 |
 | **Última actualización** | 2026-09-02 |
@@ -49,13 +49,15 @@ si `S1-R2` no se resuelve a tiempo.
 
 ## 3. Alcance / No-alcance
 
-**Dentro**
+### Dentro
+
 - Contrato de naming de `template_name`: formato, normalización, unicidad, propiedad del valor.
 - Mapeo `Channel` (form v2) → `communication_type` (tabla).
 - Query de reconciliación post-send ticket ↔ monitoreo.
 - Medición del baseline actual del gap.
 
-**Fuera**
+### Fuera
+
 - Cambiar el formulario de MEXCOMS *(Slice 2 — depende de Atlassian Support, R3)*.
 - Construir el dashboard *(Slice 5 — consume este join)*.
 - Modificar `CommunicationsMonitoring.scala` o los datasets upstream *(no-objetivo del charter)*.
@@ -69,7 +71,7 @@ si `S1-R2` no se resuelve a tiempo.
 **Grain:** una fila por `(template_name, communication_type, formatted_date)` — la PK y la llave del join.
 
 | Componente PK | Tipo | Origen en el intake (form v2) |
-|---|---|---|
+| --- | --- | --- |
 | `template_name` | `string` | Campo 6 / 10 / 14 — *Channel N Template Name* (texto abierto) |
 | `communication_type` | `string` | Campo 3 / 7 / 11 — *Channel N* (selección única) |
 | `formatted_date` | `date` | Campos 4-5 / 8-9 / 12-13 — *Start / End Date* por canal |
@@ -105,7 +107,7 @@ reunión del 2026-08-28 y condiciona si la reconciliación es una query, un data
 ## 5. Reglas
 
 | ID | Regla | Fuente | Estado |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `R-TPL-01` | `template_name` debe coincidir **exactamente** con el nombre registrado en la herramienta `communication_handler` | Descripción de la columna en `CommunicationsMonitoring.scala` | Activa |
 | `R-TPL-02` | La comparación de `template_name` se hace normalizada: `trim` + colapso de espacios internos + case-folding | Propuesta de este spec | ⬜ Pendiente de gate — ✅ verificada sin colisiones |
 | `R-TPL-03` | Cada canal de un ticket lleva **su propio** `template_name`; un ticket con 3 canales produce 3 llaves | Form v2, campos 6/10/14 | Activa |
@@ -179,19 +181,11 @@ Convenciones: `execute_sql_read_only`, naming de 3 niveles, `LIMIT 100` al explo
 ## 8. Riesgos y dependencias
 
 | ID | Riesgo | Impacto | Mitigación |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | S1-R2 | Cómo se expone Jira hacia Databricks está sin definir | **Alto** — condiciona si la reconciliación es automatizable | Pregunta para Eduardo en el gate; mientras tanto, muestreo manual sobre los 1,075 templates de §2 |
 | S1-R4 | `template_name` es texto abierto en el form v2 | El contrato es convención, no restricción del sistema | Proponer validación en el mismo ticket de Atlassian Support de R3/R4/R5. El centinela `NO-TEMPLATE` de §5.1 es la evidencia de que el riesgo ya se materializó |
 | S1-R5 | Cambiar la convención puede romper `JourneyMomentCommunicationsMonitoring` | Alto — dataset downstream de otro squad | ✅ `R-TPL-02` verificada contra el filtro: no cambia el conjunto de 120 templates. Falta re-verificar cuando el contrato completo esté escrito |
 | **S1-R7** | La llave real es el par `(template_name, communication_type)`: 102 templates existen bajo dos canales | **Alto** — un join por `template_name` solo duplica filas y atribuye performance al canal equivocado | Fijar el par como llave en el contrato y en la query de reconciliación. Ver §5.1 |
-
-> **Riesgos retirados.** Sus IDs no se reciclan.
->
-> - `S1-R1` — falta de permiso al notebook. Retirado el **2026-09-01**: el acceso quedó resuelto.
-> - `S1-R3` — naming histórico irrecuperable. Retirado el **2026-09-02**: medido, cero colisiones y la
->   convención vieja cerró en 2023-06-19. Ver §5.1.
-> - `S1-R6` — `communication_type` sin verificar por falta de acceso a `databricks-sql`. Retirado el
->   **2026-09-02**: acceso resuelto, §4.1 verificado y **R10** cerrado.
 
 ### Naming observado en producción
 
@@ -214,7 +208,7 @@ reconciliación post-send en vez de pedir una llave nueva.
 ## 9. Decisiones abiertas
 
 | Pregunta | ADR | Dueño | Supuesto mientras tanto |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | ¿Reconciliación post-send con `template_name`, o llave nueva? | [ADR-0004](../adr/0004-ticket-monitoring-join-key.md) | Eduardo | Se vive con reconciliación post-send |
 | ¿Qué valor de meta para O1? | — | Eduardo | Se fija con el baseline en mano |
 | ¿Cómo llega la data de Jira a Databricks? | ⬜ por abrir si el gate no lo resuelve | Eduardo | Muestreo manual para el baseline |

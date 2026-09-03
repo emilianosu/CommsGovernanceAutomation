@@ -336,11 +336,6 @@ governance está al revés — una comm enviada con cero clicks es la fila más 
 | **Valores de negocio** | `R-DUR-01` y `R-VOL-01` sin definir | Majo |
 | **Jira → Databricks** | Cómo se expone la data de MEXCOMS hacia Databricks, sin definir. Bloquea el % de match del baseline de O1 (`S1-R2`) | Eduardo |
 
-> **Cerrados el 2026-09-02, en orden:** **MXCE-1025** — el card tenía `description = null`, priority `Low` y
-> status `Backlog`; hoy tiene descripción, criterios de aceptación, priority `Medium` y status `In Progress`.
-> **`communication_type`** — el acceso a `databricks-sql` se resolvió y la columna quedó verificada con 3
-> valores, lo que cierra §4.1 de [SPEC-001](./SPEC-001-template-name-traceability.md) y el riesgo **R10**.
-
 ## 8. Preguntas abiertas → ADR
 
 Las 5 preguntas del *Technical Discovery* mapean 1:1 a un ADR. Ninguna queda sin dueño:

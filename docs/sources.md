@@ -43,14 +43,6 @@ un script. Están en lenguaje de proceso, sin jerga técnica, y su audiencia es 
 > fuente de verdad técnica; estos docs cuentan lo mismo en lenguaje de negocio y omiten a propósito reglas,
 > rutas y nombres de dataset. Cuando una decisión se cierra, se registra en su ADR **y** en la bitácora del
 > doc de decisiones. Majo puede comentar y editar: para eso están en Drive.
->
-> Un intento anterior — cinco docs generados por script que transcribían los specs — se descartó el
-> **2026-09-02**: era documentación de ingeniería con otro formato, inútil para la audiencia real.
-> Sus URLs dejaron de servir.
->
-> Los docs archivados el 2026-09-02 (*Spec v0*, *Technical Discovery (MXCE-1025)*, `discovery-doc.md` y las
-> dos copias de *Spec v0*) citaban un `comms-governance-automation-context.md` "en la carpeta del proyecto"
-> como fuente de verdad. **Ese archivo nunca existió** — ni en Drive ni en local. Este repo lo reemplaza.
 
 ### Documentos de proceso (de Majo)
 
