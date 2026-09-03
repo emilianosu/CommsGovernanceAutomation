@@ -67,21 +67,26 @@ Insumos que este repo lleva a esa sesión:
 3. El slice 1 especificado → [SPEC-001](./SPEC-001-template-name-traceability.md).
 4. Cinco decisiones abiertas con opciones y trade-offs, listas para cerrarse → [`adr/`](../adr/).
 
-**Timeline propuesto (borrador, para validar hoy):** días hábiles de un solo desarrollador (Emi), sin contar
-lead time externo (tickets, aprobaciones, valores de Majo). Se ajusta en vivo con lo que se decida en la
-sesión.
+**Timeline propuesto (borrador, para validar hoy):** semanas de calendario, con margen para el lead time
+externo (tickets, aprobaciones, valores de Majo) y para que un solo desarrollador (Emi) lo lleve sin
+dedicación exclusiva. Se ajusta en vivo con lo que se decida en la sesión.
 
-| Slice | Duración estimada | Depende de / bloqueado por |
-| --- | --- | --- |
-| 1 — Trazabilidad | 1-2 días — cerrar `ADR-0004` y redactar el contrato final de naming | Ninguno duro; ya casi listo (`SPEC-001` en revisión) |
-| 2 — Intake | Sin ETA hasta abrir el ticket a Atlassian Support (lead time externo) + 3-5 días de implementación una vez desbloqueado | Ticket a Atlassian Support (portal 1880) |
-| 3 — Validation engine | Sin ETA hasta tener `R-DUR-01`/`R-VOL-01` de Majo + 5-7 días de implementación una vez con los valores | Slice 2 · valores de Majo (`ADR-0003`) |
-| 4 — Calendario | 3-5 días, una vez decidido el tooling | Slice 3 · `ADR-0005` |
-| 5 — Dashboard | 4-6 días — puede arrancar en paralelo apenas cierre el Slice 1 | Slice 1 · `ADR-0005` |
-| Overlap (spike) | Varias semanas — es el componente más complejo (D6); va aparte, no bloquea | `ADR-0001` |
+| Slice | Duración estimada | Ventana objetivo | Depende de / bloqueado por |
+| --- | --- | --- | --- |
+| 1 — Trazabilidad | 2-3 semanas — cerrar `ADR-0004`, redactar el contrato final de naming y pasar el gate técnico | Septiembre | Ninguno duro; ya casi listo (`SPEC-001` en revisión) |
+| 2 — Intake | 4-6 semanas, incluyendo el lead time del ticket a Atlassian Support (no lo controlamos) | Septiembre-Octubre | Ticket a Atlassian Support (portal 1880) |
+| 3 — Validation engine | 5-7 semanas, incluyendo esperar los valores de Majo y ciclos de ajuste de reglas contra datos reales | Octubre-Noviembre | Slice 2 · valores de Majo (`ADR-0003`) |
+| 4 — Calendario | 3-5 semanas | Noviembre-Diciembre | Slice 3 · `ADR-0005` |
+| 5 — Dashboard | 4-6 semanas — puede arrancar en paralelo apenas cierre el Slice 1 | Septiembre-Noviembre, en paralelo | Slice 1 · `ADR-0005` |
+| Overlap (spike) | 6-10 semanas — es el componente más complejo (D6); corre en paralelo sin bloquear | Septiembre-Enero | `ADR-0001` |
+
+Camino crítico aproximado (1 → 2 → 3 → 4, secuencial): **14-21 semanas** de trabajo efectivo. El resto del
+margen es buffer para integración end-to-end, ajustes tras ver datos reales, y tiempos de espera externos que
+hoy no podemos acotar.
 
 > Los slices 2, 3 y 4 tienen su reloj real fuera de nuestro control (tickets externos, valores de negocio).
-> El camino que sí depende solo de nosotros es 1 → 5 (dashboard), que es también el más rápido de mostrar.
+> El camino que sí depende solo de nosotros es 1 → 5 (dashboard) — arranca primero, aunque no es el que
+> cierra el proyecto.
 
 **Decisiones a cerrar en la sesión:**
 
